@@ -23,3 +23,29 @@ test('Testando cadastro de três perguntas', () => {
   expect(perguntas[2].num_respostas).toBe(0);
   expect(perguntas[1].id_pergunta).toBe(perguntas[2].id_pergunta-1);
 });
+
+test('Testando cadastro de três respostas', () => {
+  modelo.cadastrar_pergunta('O que está sempre a sua frente mas não pode ser visto?');
+  modelo.cadastrar_pergunta('O que é feito para andar mas não anda?');
+  modelo.cadastrar_pergunta('O que quanto mais você tem, menos você vê?');
+
+  const perguntas = modelo.listar_perguntas();
+  modelo.cadastrar_resposta(perguntas[0].id_pergunta, 'Futuro');
+  modelo.cadastrar_resposta(perguntas[1].id_pergunta, 'Escada');
+  modelo.cadastrar_resposta(perguntas[2].id_pergunta, 'Escuridão');
+
+  expect(modelo.get_num_respostas(perguntas[0].id_pergunta)).toBe(1);
+  expect(modelo.get_num_respostas(perguntas[1].id_pergunta)).toBe(1);
+
+  expect(modelo.get_respostas(perguntas[1].id_pergunta)[0].texto).toBe('Escada');
+  expect(modelo.get_respostas(perguntas[2].id_pergunta)[0].texto).toBe('Escuridão');
+
+});
+
+test('Testando pegar pergunta por id', () => {
+  modelo.cadastrar_pergunta('O que não pode ser usado antes de ser quebrado?');
+  
+  const pergunta = modelo.listar_perguntas();
+  expect(modelo.get_pergunta(pergunta[0].id_pergunta).texto).toBe('O que não pode ser usado antes de ser quebrado?');
+
+});
